@@ -18,7 +18,6 @@ public class AccountService {
     // Create a new Account
     public Account addNewAccount(Account account) {
         Account existingAccount = accountDAO.getAccountById(account, account.getAccount_id());
-
         /**
          * If the username is not blank
          * The username length is atleast 4 characters long
@@ -27,7 +26,11 @@ public class AccountService {
          if ( (account.getUsername()!= null) && (account.getUsername().length() >= 4) && (existingAccount == null)) {
              return accountDAO.createNewAccount(account);
          }
-         
         return null;
+    }
+
+    // User Log In 
+    public Account logIn(Account account) {
+        return accountDAO.logIn(account.getUsername(), account.getPassword());
     }
 }
