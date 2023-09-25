@@ -23,6 +23,7 @@ public class SocialMediaController {
         this.messageService = new MessageService();
     }
 
+    
     /**
      * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
      * suite must receive a Javalin object from this method.
@@ -32,7 +33,7 @@ public class SocialMediaController {
         Javalin app = Javalin.create();
         app.get("example-endpoint", this::exampleHandler);
         app.post("localhost:8080/register", this::postAccountHandler);
-
+    
         return app.start(8080);
     }
 
