@@ -19,7 +19,7 @@ public class AccountDAO {
         Connection con = ConnectionUtil.getConnection();
 
         try {
-            String sql = "INSERT into account (username, password) VALUES (?, ?);";
+            String sql = "INSERT INTO account (username, password) VALUES (?, ?);";
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, account.getUsername());
@@ -43,14 +43,15 @@ public class AccountDAO {
         Connection con = ConnectionUtil.getConnection();
 
         try {
-            String sql = "SELECT * FROM account WHERE username LIKE ? AND password LIKE ?";
+            String sql = "SELECT account_id, username, password FROM account WHERE username = ? AND password = ?";
             PreparedStatement ps = con.prepareStatement(sql);
+
             ps.setString(1, userName);
             ps.setString(2,password);
 
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()) {
+            if(rs.next()) {
                 Account acc = new Account(rs.getInt("account_id"), rs.getString("username"), rs.getString("password"));
                 return acc;
             }
@@ -91,7 +92,7 @@ public class AccountDAO {
 
 
     // Does userName exist
-    public boolean doesUserNameExist(String userName) {
+    public  boolean doesUserNameExist(String userName) {
         Connection con = ConnectionUtil.getConnection();
 
         try{

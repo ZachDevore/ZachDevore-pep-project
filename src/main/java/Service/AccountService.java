@@ -26,22 +26,28 @@ public class AccountService {
         
         /**
          * If the username is not blank
-         * The username length is atleast 4 characters long
+         * The password length is at least 4 characters long
          * An account with the same username does not exist
          */
-        //  if ( (account.getUsername()!= null) 
-        //  && (account.getUsername().length() >= 4)
-        //  &&   ) {
-        //      return accountDAO.createNewAccount(account);
-        //  }
-        // return null;
+         if ( (account.getUsername()!= "") 
+         && account.getUsername()!= null
+         && (account.getPassword().length() >= 4)
+         && (accountDAO.doesUserNameExist(account.getUsername()) == false) ){
+             return accountDAO.createNewAccount(account);
+         }
+        return null;
 
 
-        return accountDAO.createNewAccount(account);
+        
     }
 
     // User Log In 
     public Account logIn(Account account) {
+        // if (accountDAO.logIn(account.getUsername(), account.getPassword()) != null) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
         return accountDAO.logIn(account.getUsername(), account.getPassword());
     }
 }

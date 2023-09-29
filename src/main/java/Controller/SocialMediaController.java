@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Model.Account;
+import Model.Message;
 import Service.AccountService;
 import Service.MessageService;
 import io.javalin.Javalin;
@@ -32,7 +33,9 @@ public class SocialMediaController {
     public Javalin startAPI() {
         Javalin app = Javalin.create();
         //app.get("example-endpoint", this::exampleHandler);
-        app.post("/register", this::postAccountHandler);
+        app.post("/register", this::postCreateAccountHandler);
+        app.post("/login", this::postLoginHandler);
+        app.post("/messages", this::postCreateMessageHandler);
     
         return app;
     }
@@ -44,12 +47,12 @@ public class SocialMediaController {
     // private void exampleHandler(Context context) {
     //     context.json("sample text");
     // }
-
-    public void postAccountHandler(Context ctx) throws JsonProcessingException {
+    
+    //Create an Account
+    public void postCreateAccountHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(ctx.body(), Account.class);
         Account addedAccount = accountService.addNewAccount(account);
-        // I think this added account must be null
         if (addedAccount != null) {
              ctx.json(mapper.writeValueAsString(addedAccount));
             ctx.status(200);
@@ -58,5 +61,32 @@ public class SocialMediaController {
         }
     }
 
+    // Login 
+    /**
+     * @param ctx
+     * @throws JsonProcessingException
+     */
+    public void postLoginHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Account account = mapper.readValue(ctx.body(), Account.class);
+        
+        Account login = accountService.logIn(account);
+        if (login != null) {
+            ctx.json(mapper.writeValueAsString(login));
+            ctx.status(200);
+        } else {
+            ctx.status(401);
+        }
+
+        
+    }
+
+    // Create a Message
+    public void postCreateMessageHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+
+        
+    }
 
 }
