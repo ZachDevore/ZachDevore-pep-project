@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.naming.spi.DirStateFactory.Result;
 
@@ -18,7 +19,7 @@ public class AccountDAO {
         Connection con = ConnectionUtil.getConnection();
 
         try {
-            String sql = "INSERT into account (username, password) VALUES ?, ?;";
+            String sql = "INSERT into account (username, password) VALUES (?, ?);";
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, account.getUsername());
@@ -28,7 +29,7 @@ public class AccountDAO {
             ResultSet rs = ps.getGeneratedKeys();
 
             if (rs.next()) {
-                int generated_account_id = (int) rs.getLong("account_id");
+                int generated_account_id =  (int) rs.getLong("account_id");
                 return new Account(generated_account_id, account.getUsername(), account.getPassword());
             }
         } catch(SQLException e) {
@@ -87,4 +88,25 @@ public class AccountDAO {
         }
     return null;
     }
+
+
+    // Does userName exist
+    public boolean doesUserNameExist(String userName) {
+        Connection con = ConnectionUtil.getConnection();
+
+        try{
+            String sql = "SELECT * FROM account WHERE username LIKE ?;";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, userName);
+            ResultSet rs = ps.executeQuery();
+            if (rs != null) {
+            return false;
+        }
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
+    }
+
 }
+

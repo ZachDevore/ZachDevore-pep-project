@@ -49,8 +49,9 @@ public class SocialMediaController {
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(ctx.body(), Account.class);
         Account addedAccount = accountService.addNewAccount(account);
-        if (addedAccount!=null) {
-            ctx.json(mapper.writeValueAsString(addedAccount));
+        // I think this added account must be null
+        if (addedAccount != null) {
+             ctx.json(mapper.writeValueAsString(addedAccount));
             ctx.status(200);
         } else {
             ctx.status(400);
