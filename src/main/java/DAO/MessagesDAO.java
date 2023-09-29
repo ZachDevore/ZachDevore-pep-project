@@ -24,7 +24,8 @@ public class MessagesDAO {
             ResultSet rs = ps.getGeneratedKeys();
 
             if (rs.next()) {
-                return new Message(message.getPosted_by(), message.getMessage_text(), message.getTime_posted_epoch());
+                int generated_message_id= rs.getInt("message_id");
+                return new Message(generated_message_id, message.getPosted_by(), message.getMessage_text(), message.getTime_posted_epoch());
             } 
 
         } catch(SQLException e) {
