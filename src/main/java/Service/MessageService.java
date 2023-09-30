@@ -2,6 +2,8 @@ package Service;
 
 import DAO.MessagesDAO;
 import Model.Message;
+import java.util.ArrayList;
+import java.util.List;
 public class MessageService {
     
     private MessagesDAO messagesDAO;
@@ -29,5 +31,15 @@ public class MessageService {
                 return messagesDAO.createMessage(message);
             }
        return null;
+    }
+
+    // Get all messages
+    public List<Message> getAllMessages() {
+        return messagesDAO.getAllMessages();
+    }
+
+    // Get message by id
+    public Message getMessageById(int id) {
+        return messagesDAO.getMessageById(id);
     }
 }

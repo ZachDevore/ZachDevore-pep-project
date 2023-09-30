@@ -1,5 +1,7 @@
 package Controller;
 
+import java.util.List;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,21 +34,18 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        //app.get("example-endpoint", this::exampleHandler);
         app.post("/register", this::postCreateAccountHandler);
         app.post("/login", this::postLoginHandler);
         app.post("/messages", this::postCreateMessageHandler);
+        app.get("/messages", this::getAllMessagesHandler);
+        app.get("/messages/{message_id}", this::getMessageByIdHandler);
+        
+
     
         return app;
     }
 
-    /**
-     * This is an example handler for an example endpoint.
-     * @param context The Javalin Context object manages information about both the HTTP request and response.
-     */
-    // private void exampleHandler(Context context) {
-    //     context.json("sample text");
-    // }
+    
     
     //Create an Account
     public void postCreateAccountHandler(Context ctx) throws JsonProcessingException {
@@ -97,5 +96,33 @@ public class SocialMediaController {
 
         
     }
+
+    // Retrieve all messages
+    public void getAllMessagesHandler(Context ctx) throws JsonProcessingException {
+        List<Message> messages = messageService.getAllMessages();
+        ctx.json(messages);
+        ctx.status(200);
+    }
+
+    // Retrieve a message by id
+    public void getMessageByIdHandler(Context ctx) throws JsonProcessingException {
+        // Do I need an object mapper
+        int message_id = Integer.parseInt(ctx.pathParam("message_id"));
+
+        Message targetMessage = messageService.getMessageById(message_id);
+        if (targetMessage != null) {
+            ctx.json(targetMessage);
+            ctx.status(200);
+        } else {
+            ctx.status(200);
+        }
+
+        
+        
+    }
+
+   
+
+    
 
 }
