@@ -73,8 +73,7 @@ public class MessagesDAO {
             ResultSet rs = ps.executeQuery();
             
             
-            if
-             (rs.next()) {
+            if(rs.next()) {
                 Message message = new Message(
                     rs.getInt("message_id"),
                     rs.getInt("posted_by"),
@@ -91,7 +90,22 @@ public class MessagesDAO {
     }
 
     // Delete a message by id
+    public Message deleteMessageById(int id) {
+        Connection con = ConnectionUtil.getConnection();
 
+        Message messageToBeDeleted = getMessageById(id);
+
+        try {
+            String sql = "DELETE FROM message WHERE message_id = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return messageToBeDeleted;
+    }
 
     // Update a message text by id
 
