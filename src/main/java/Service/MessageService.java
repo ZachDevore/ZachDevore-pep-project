@@ -50,7 +50,17 @@ public class MessageService {
 
      // Update message by id
      public Message updateMessageById(int id, Message message) {
-        return messagesDAO.updateMessageById(id, message);
+        /*
+         * The update of a message should be successful if and only if the message id already exists 
+         * and the new message_text is not blank 
+         * and is not over 255 characters. If the update is successful, the response body should contain the full updated message (including message_id, posted_by, message_text, and time_posted_epoch), and the response status should be 200, which is the default. The message existing on the database should have the updated message_text.
+         */
+        if (messagesDAO.getMessageById(id) != null 
+            && message.getMessage_text() != ""
+            && message.getMessage_text().length() < 255) {
+                return messagesDAO.updateMessageById(id, message);
+            }
+        return null;
      }
 
     // Get All messages from account
