@@ -47,4 +47,29 @@ public class MessageService {
     public Message deleteMessageById(int id) {
         return messagesDAO.deleteMessageById(id);
     }
+
+     /**
+         * the messageid already exist
+         * the new message_text is not blank
+         * the new message_text is not over 255 characters long
+         */
+    // Update message by id
+    /* 
+    public Message updateMessageById(Message updatedMessage) {
+       
+        // if (messagesDAO.getMessageById(id) != null 
+        //     && updatedMessageText != null
+        //     && updatedMessageText.length() <= 255) {
+        //         return messagesDAO.updateMessageById(updatedMessageText, id);
+        //     }
+     return messagesDAO.updateMessageById(updatedMessage);
+        
+        
+    }
+    */
+
+    // Get All messages from account
+    public List<Message> getAllMessagesFromAccount(int account_id) {
+        return messagesDAO.getAllMessagesFromAccount(account_id);
+    }
 }

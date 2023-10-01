@@ -39,7 +39,9 @@ public class SocialMediaController {
         app.post("/messages", this::postCreateMessageHandler);
         app.get("/messages", this::getAllMessagesHandler);
         app.get("/messages/{message_id}", this::getMessageByIdHandler);
-        app.delete("/messages/{message_id}", this::deleteMessageById);
+        app.delete("/messages/{message_id}", this::deleteMessageByIdHandler);
+        //app.patch("/messages/{message_id}", this::patchMessageByIdHandler);
+        app.get("accounts/{account_id}/messages", this::getAllMessagesFromAccountHandler);
 
     
         return app;
@@ -124,7 +126,7 @@ public class SocialMediaController {
 
 
     // Delete message by id
-    public void deleteMessageById(Context ctx) throws JsonProcessingException {
+    public void deleteMessageByIdHandler(Context ctx) throws JsonProcessingException {
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
 
         Message targetMessage = messageService.deleteMessageById(message_id);
@@ -136,7 +138,17 @@ public class SocialMediaController {
             ctx.status(200);
         }
     }
+ 
+    // Update message by id
 
+
+    // Get all messages from a certain account
+    public void getAllMessagesFromAccountHandler(Context ctx) throws JsonProcessingException {
+        int accountId = Integer.parseInt(ctx.pathParam("account_id"));
+        List<Message> messages = messageService.getAllMessagesFromAccount(accountId);
+        ctx.json(messages);
+        ctx.status(200);
+    }
    
 
     
