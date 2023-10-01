@@ -106,43 +106,23 @@ public class MessagesDAO {
         }
         return messageToBeDeleted;
     }
-/* 
-    // Update a message text by id
-    public Message updateMessageById(Message updatedMessage) {
-        Connection con = ConnectionUtil.getConnection();
-        try {
-            String sql = "UPDATE message SET message_text = ?, time_posted_epoch = ? WHERE message_id = ?;";
-            PreparedStatement ps = con.prepareStatement(sql);
-    
-            ps.setString(1, updatedMessage.getMessage_text());
-            ps.setLong(2, updatedMessage.getTime_posted_epoch());
-            ps.setInt(3, updatedMessage.getMessage_id());
-    
-            ps.executeUpdate();
 
-            //  Message newUpdatedMessage = new Message(
-            //         rs.getInt("message_id"),
-            //         rs.getInt("posted_by"),
-            //         rs.getString("message_text"),
-            //         rs.getLong("time_posted_epoch")
-            //     );
-            // return newUpdatedMessage;
-            // if (rs.next()) {
-            //     Message newUpdatedMessage = new Message(
-            //         rs.getInt("message_id"),
-            //         rs.getInt("posted_by"),
-            //         rs.getString("message_text"),
-            //         rs.getLong("time_posted_epoch")
-            //     );
-            //     return newUpdatedMessage;
-            // }
+    // Update a message text by id
+    public Message updateMessageById(int id, Message message) {
+        Connection con = ConnectionUtil.getConnection();
+
+        try {
+            String sql = "UPDATE message SET message_text = ? WHERE message_id = ?;";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, message.getMessage_text());
+            ps.setInt(2, id);
+
+            ps.executeUpdate();
         } catch(SQLException e) {
             System.out.println(e.getMessage());
         }
-        return getMessageById(updatedMessage.getMessage_id());
-        
+        return getMessageById(id);
     }
-    */
 
 
     // Retrieve all messages written by a particular user

@@ -48,25 +48,10 @@ public class MessageService {
         return messagesDAO.deleteMessageById(id);
     }
 
-     /**
-         * the messageid already exist
-         * the new message_text is not blank
-         * the new message_text is not over 255 characters long
-         */
-    // Update message by id
-    /* 
-    public Message updateMessageById(Message updatedMessage) {
-       
-        // if (messagesDAO.getMessageById(id) != null 
-        //     && updatedMessageText != null
-        //     && updatedMessageText.length() <= 255) {
-        //         return messagesDAO.updateMessageById(updatedMessageText, id);
-        //     }
-     return messagesDAO.updateMessageById(updatedMessage);
-        
-        
-    }
-    */
+     // Update message by id
+     public Message updateMessageById(int id, Message message) {
+        return messagesDAO.updateMessageById(id, message);
+     }
 
     // Get All messages from account
     public List<Message> getAllMessagesFromAccount(int account_id) {
